@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run JS Code</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #code { width: 100%; height: 150px; }
+        #runButton { padding: 10px 20px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Enter JavaScript Code</h2>
+    <textarea id="code" placeholder="Enter your JavaScript code here..."></textarea><br>
+    <button id="runButton">Run Code</button>
+
+    <script>
+        document.getElementById('runButton').onclick = function() {
+            var code = document.getElementById('code').value;
+            try {
+                new Function(code)();
+            } catch (e) {
+                alert('Error in your code: ' + e.message);
+            }
+        };
+    </script>
+</body>
+</html>
