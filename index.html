@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookmarklet and Code Runner</title>
+    <title>Interactive Code Runner & Bookmarklet Creator</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
-        #name, #code { width: 100%; margin-top: 10px; }
+        #name, #code { width: 100%; box-sizing: border-box; margin-top: 10px; }
         #code { height: 150px; }
-        button { padding: 10px 20px; margin-top: 10px; margin-right: 10px; cursor: pointer; border-radius: 5px; border: none; }
+        button { padding: 10px 20px; margin-top: 10px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; }
         #generateButton { background-color: #4CAF50; color: white; }
         #runButton { background-color: #008CBA; color: white; }
         #clearButton { background-color: #f44336; color: white; }
         .bookmarkletLink { margin-top: 20px; display: none; }
-        .bookmarkletLink a { color: white; padding: 14px 25px; text-decoration: none; display: inline-block; border-radius: 5px; background-color: #555555; }
+        .bookmarkletLink a { padding: 10px; background-color: #555555; color: white; text-decoration: none; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h2>Bookmarklet and Code Runner</h2>
-    <input type="text" id="name" placeholder="Enter Bookmarklet Name...">
-    <textarea id="code" placeholder="Enter JavaScript code here..."></textarea>
-    <button id="generateButton">Generate Bookmarklet</button>
+    <h2>Interactive Code Runner & Bookmarklet Creator</h2>
+    <input id="name" type="text" placeholder="Bookmarklet Name">
+    <textarea id="code" placeholder="Enter JavaScript code here..."></textarea><br>
     <button id="runButton">Run Code</button>
+    <button id="generateButton">Generate Bookmarklet</button>
     <button id="clearButton">Clear Fields</button>
 
     <div id="bookmarkletLink" class="bookmarkletLink"></div>
@@ -37,29 +37,24 @@
 
             var bookmarkletCode = 'javascript:(function(){' + encodeURIComponent(code) + '})();';
             var linkHtml = '<a href="' + bookmarkletCode + '" draggable="true">' + name + '</a>';
-            var bookmarkletLinkDiv = document.getElementById('bookmarkletLink');
-            bookmarkletLinkDiv.innerHTML = linkHtml;
-            bookmarkletLinkDiv.style.display = 'block';
+            document.getElementById('bookmarkletLink').innerHTML = linkHtml;
+            document.getElementById('bookmarkletLink').style.display = 'block';
         };
 
         document.getElementById('runButton').onclick = function() {
-            var code = document.getElementById('code').value.trim();
-            if (!code) {
-                alert('Please enter some JavaScript code to run.');
-                return;
-            }
+            var code = document.getElementById('code').value;
             try {
                 new Function(code)();
             } catch (e) {
-                alert('Error in your code: ' + e.message);
+                alert('Error in executing the code: ' + e.message);
             }
         };
 
         document.getElementById('clearButton').onclick = function() {
             document.getElementById('name').value = '';
             document.getElementById('code').value = '';
-            document.getElementById('bookmarkletLink').innerHTML = '';
             document.getElementById('bookmarkletLink').style.display = 'none';
+            document.getElementById('bookmarkletLink').innerHTML = '';
         };
     </script>
 </body>
