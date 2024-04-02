@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookmarklet Generator</title>
+    <title>Bookmarklet and Code Runner</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         #name, #code { width: 100%; margin-top: 10px; }
         #code { height: 150px; }
-        button { padding: 10px 20px; margin-top: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 5px; }
-        button:hover { background-color: #45a049; }
+        button { padding: 10px 20px; margin-top: 10px; margin-right: 10px; cursor: pointer; border-radius: 5px; border: none; }
+        #generateButton { background-color: #4CAF50; color: white; }
+        #runButton { background-color: #008CBA; color: white; }
+        #clearButton { background-color: #f44336; color: white; }
         .bookmarkletLink { margin-top: 20px; display: none; }
-        .bookmarkletLink a { background-color: #008CBA; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px; }
+        .bookmarkletLink a { color: white; padding: 14px 25px; text-decoration: none; display: inline-block; border-radius: 5px; background-color: #555555; }
     </style>
 </head>
 <body>
-    <h2>Bookmarklet Generator</h2>
+    <h2>Bookmarklet and Code Runner</h2>
     <input type="text" id="name" placeholder="Enter Bookmarklet Name...">
     <textarea id="code" placeholder="Enter JavaScript code here..."></textarea>
     <button id="generateButton">Generate Bookmarklet</button>
+    <button id="runButton">Run Code</button>
+    <button id="clearButton">Clear Fields</button>
 
     <div id="bookmarkletLink" class="bookmarkletLink"></div>
 
@@ -32,10 +36,30 @@
             }
 
             var bookmarkletCode = 'javascript:(function(){' + encodeURIComponent(code) + '})();';
-            var linkHtml = '<a href="' + bookmarkletCode + '" draggable="true">Drag this to your bookmarks: ' + name + '</a>';
+            var linkHtml = '<a href="' + bookmarkletCode + '" draggable="true">' + name + '</a>';
             var bookmarkletLinkDiv = document.getElementById('bookmarkletLink');
             bookmarkletLinkDiv.innerHTML = linkHtml;
             bookmarkletLinkDiv.style.display = 'block';
+        };
+
+        document.getElementById('runButton').onclick = function() {
+            var code = document.getElementById('code').value.trim();
+            if (!code) {
+                alert('Please enter some JavaScript code to run.');
+                return;
+            }
+            try {
+                new Function(code)();
+            } catch (e) {
+                alert('Error in your code: ' + e.message);
+            }
+        };
+
+        document.getElementById('clearButton').onclick = function() {
+            document.getElementById('name').value = '';
+            document.getElementById('code').value = '';
+            document.getElementById('bookmarkletLink').innerHTML = '';
+            document.getElementById('bookmarkletLink').style.display = 'none';
         };
     </script>
 </body>
