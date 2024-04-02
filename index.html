@@ -6,20 +6,21 @@
     <title>Bookmarklet Generator</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
-        #code, #name { width: 100%; }
+        #name, #code { width: 100%; margin-top: 10px; }
         #code { height: 150px; }
-        textarea, input { margin-top: 10px; }
-        #generateButton { padding: 10px 20px; margin-top: 10px; }
-        #bookmarkletLink { margin-top: 20px; }
+        button { padding: 10px 20px; margin-top: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        button:hover { background-color: #45a049; }
+        .bookmarkletLink { margin-top: 20px; display: none; }
+        .bookmarkletLink a { background-color: #008CBA; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px; }
     </style>
 </head>
 <body>
     <h2>Bookmarklet Generator</h2>
     <input type="text" id="name" placeholder="Enter Bookmarklet Name...">
-    <textarea id="code" placeholder="Enter JavaScript code here..."></textarea><br>
+    <textarea id="code" placeholder="Enter JavaScript code here..."></textarea>
     <button id="generateButton">Generate Bookmarklet</button>
 
-    <p id="bookmarkletLink"></p>
+    <div id="bookmarkletLink" class="bookmarkletLink"></div>
 
     <script>
         document.getElementById('generateButton').onclick = function() {
@@ -31,8 +32,10 @@
             }
 
             var bookmarkletCode = 'javascript:(function(){' + encodeURIComponent(code) + '})();';
-            var linkHtml = '<a href="' + bookmarkletCode + '" style="background-color:#4CAF50;color:white;padding:10px;text-decoration:none;border-radius:5px;">Drag this to your bookmarks: ' + name + '</a>';
-            document.getElementById('bookmarkletLink').innerHTML = linkHtml;
+            var linkHtml = '<a href="' + bookmarkletCode + '" draggable="true">Drag this to your bookmarks: ' + name + '</a>';
+            var bookmarkletLinkDiv = document.getElementById('bookmarkletLink');
+            bookmarkletLinkDiv.innerHTML = linkHtml;
+            bookmarkletLinkDiv.style.display = 'block';
         };
     </script>
 </body>
