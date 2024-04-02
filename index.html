@@ -3,26 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run JS Code</title>
+    <title>Bookmarklet Generator</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
-        #code { width: 100%; height: 150px; }
-        #runButton { padding: 10px 20px; margin-top: 10px; }
+        #code, #name { width: 100%; }
+        #code { height: 150px; }
+        textarea, input { margin-top: 10px; }
+        #generateButton { padding: 10px 20px; margin-top: 10px; }
+        #bookmarkletLink { margin-top: 20px; }
     </style>
 </head>
 <body>
-    <h2>Enter JavaScript Code</h2>
-    <textarea id="code" placeholder="Enter your JavaScript code here..."></textarea><br>
-    <button id="runButton">Run Code</button>
+    <h2>Bookmarklet Generator</h2>
+    <input type="text" id="name" placeholder="Enter Bookmarklet Name...">
+    <textarea id="code" placeholder="Enter JavaScript code here..."></textarea><br>
+    <button id="generateButton">Generate Bookmarklet</button>
+
+    <p id="bookmarkletLink"></p>
 
     <script>
-        document.getElementById('runButton').onclick = function() {
-            var code = document.getElementById('code').value;
-            try {
-                new Function(code)();
-            } catch (e) {
-                alert('Error in your code: ' + e.message);
+        document.getElementById('generateButton').onclick = function() {
+            var name = document.getElementById('name').value.trim();
+            var code = document.getElementById('code').value.trim();
+            if (!name || !code) {
+                alert('Please provide both a name and some JavaScript code.');
+                return;
             }
+
+            var bookmarkletCode = 'javascript:(function(){' + encodeURIComponent(code) + '})();';
+            var linkHtml = '<a href="' + bookmarkletCode + '" style="background-color:#4CAF50;color:white;padding:10px;text-decoration:none;border-radius:5px;">Drag this to your bookmarks: ' + name + '</a>';
+            document.getElementById('bookmarkletLink').innerHTML = linkHtml;
         };
     </script>
 </body>
